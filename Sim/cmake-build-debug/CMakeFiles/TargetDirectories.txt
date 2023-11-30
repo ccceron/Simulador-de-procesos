@@ -1,0 +1,3 @@
+C:/Users/DAlej/CLionProjects/Sim/cmake-build-debug/CMakeFiles/Sim.dir
+C:/Users/DAlej/CLionProjects/Sim/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/DAlej/CLionProjects/Sim/cmake-build-debug/CMakeFiles/rebuild_cache.dir
