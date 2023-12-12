@@ -26,6 +26,15 @@ vector<position>positions {
     {"D8", 8}
 };
 
+void debug(){
+    cout << "Printing Memory: " << endl;
+    for (int i = 0; i < 8; ++i) {
+        cout << "D" << i+1 << ": " << memory_sim[i] << endl;
+    }
+    cout << "Printing ACC" << endl;
+    cout << acc << endl;
+}
+
 int get_position_value(const string& position){
     int position_value = 0;
     for (int i = 0; i < 8; ++i) {
@@ -44,26 +53,36 @@ void clean_memory(){
     acc = 0;
 };
 
-void set(const string& position, int value, const string& add_arg_three = "", const string& add_arg_four = ""){
+void set(const string& position, int value, const string& add_arg_two = "", const string& add_arg_three = "") {
     int position_value = get_position_value(position);
-    memory_sim[position_value-1] = value;
+    memory_sim[position_value - 1] = value;
 }
 
 void ldr(const string& position, const string& add_arg_two = "", const string& add_arg_three = "", const string& add_arg_four = ""){
     int position_value = get_position_value(position);
-    acc = acc + memory_sim[position_value-1];
+    acc = memory_sim[position_value-1];
 }
 
-//void add(const string& position, const string& add_arg_two = "", const string& add_arg_three = "", const string& add_arg_four = ""){
-//    int position_value = get_position_value(position);
-//    if (add_arg_two.empty() and add_arg_three.empty()){
-//        acc = acc + memory_sim[position_value-1];
-//    }
-//}
 
-void add(const string& position, const string& add_arg_two = "", const string& add_arg_three = "", const string& add_arg_four = ""){
+void add(const string& position, const string& add_arg_two = "", const string& add_arg_three = "", const string& add_arg_four = "") {
     int position_value = get_position_value(position);
-    acc = acc + memory_sim[position_value-1];
+    int result = acc;  // Use a temporary variable to accumulate the result
+
+    if (!add_arg_two.empty()) {
+        int add_arg_two_value = get_position_value(add_arg_two);
+        result += memory_sim[add_arg_two_value - 1];
+    } else if (!add_arg_three.empty()) {
+        int add_arg_three_value = get_position_value(add_arg_three);
+        result += memory_sim[add_arg_three_value - 1];
+        if (!add_arg_four.empty()) {
+            int add_arg_four_value = get_position_value(add_arg_four);
+            memory_sim[add_arg_four_value - 1] = result;
+        }
+    } else {
+        result += memory_sim[position_value - 1];
+    }
+
+    acc = result;  // Update acc at the end
 }
 
 void inc(const string& position, const string& add_arg_two = "", const string& add_arg_three = "", const string& add_arg_four = ""){
@@ -76,25 +95,25 @@ void dec(const string& position, const string& add_arg_two = "", const string& a
     memory_sim[position_value-1] = memory_sim[position_value-1] - 1;
 }
 
-void str(const string& position, const string& add_arg_two = "", const string& add_arg_three = "", const string& add_arg_four = ""){
+void str(const string& position, const string& add_arg_two = "", const string& add_arg_three = "", const string& add_arg_four = "") {
     int position_value = get_position_value(position);
-    memory_sim[position_value-1] = acc;
+    memory_sim[position_value - 1] = acc;
 }
 
-void shw(const string& position, const string& add_arg_two = "", const string& add_arg_three = "", const string& add_arg_four = ""){
-    if(position == "D1" or position == "D2" or position == "D3" or position == "D4" or position == "D5" or position == "D6" or position == "D7" or position == "D8"){
+void shw(const string& position, const string& add_arg_two = "", const string& add_arg_three = "", const string& add_arg_four = "") {
+    if (position == "D1" || position == "D2" || position == "D3" || position == "D4" || position == "D5" || position == "D6" || position == "D7" || position == "D8") {
         int position_value = get_position_value(position);
-        cout << "Show: " << memory_sim[position_value-1] << endl;
-    }else if(position == "ACC"){
+        cout << "Show: " << memory_sim[position_value - 1] << endl;
+    } else if (position == "ACC") {
         cout << "ACC: " << acc << endl;
     }
 }
+
 
 void pause(const string& add_arg_one , const string& add_arg_two = "", const string& add_arg_three = "", const string& add_arg_four = ""){
 }
 
 void end(const string& add_arg_one , const string& add_arg_two = "", const string& add_arg_three = "", const string& add_arg_four = ""){
-    shw("ACC");
     clean_memory();
 }
 
@@ -107,9 +126,9 @@ void process_command(const string& command, const string& arg1, const string& ar
         ldr(arg1, arg2, arg3, arg4);
     } else if (command == "ADD") {
         add(arg1, arg2, arg3, arg4);
-    } else if (command == "STR") {
+    } else if (command == "INC") {
         inc(arg1, arg2, arg3, arg4);
-    } else if (command == "STR") {
+    } else if (command == "DEC") {
         dec(arg1, arg2, arg3, arg4);
     } else if (command == "STR") {
         str(arg1, arg2, arg3, arg4);
