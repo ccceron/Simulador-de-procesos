@@ -430,6 +430,7 @@ void findavgTime(string processes[], int n, int bt[],
     // Function to find turn around time for all processes
     findTurnAroundTime(processes, n, bt, wt, tat);
     // Display processes along with all details
+    system("cls");
     cout << "Processes "<< " Burst time "
          << " Waiting time " << " Turn around time\n";
     // Calculate total waiting time and total turn
@@ -438,13 +439,13 @@ void findavgTime(string processes[], int n, int bt[],
     {
         total_wt = total_wt + wt[i];
         total_tat = total_tat + tat[i];
-        cout << " " << i+1 << "\t\t" << bt[i] <<"\t "
-             << wt[i] <<"\t\t " << tat[i] <<endl;
+        cout << processes[i] << "\t\t" << bt[i] <<"\t\t" << wt[i] <<"\t\t " << tat[i] <<endl;
     }
-    cout << "Average waiting time = "
-         << (float)total_wt / (float)n;
-    cout << "\nAverage turn around time = "
-         << (float)total_tat / (float)n;
+    cout << "Average waiting time = " << (float)total_wt / (float)n;
+    cout << "\nAverage turn around time = " << (float)total_tat / (float)n;
+    cout << endl;
+    system("pause");
+    system("cls");
 }
 void roundRobin(int processes, const int burstTimes[], string processNames[])
 {
